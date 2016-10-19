@@ -36,3 +36,9 @@ textarea {
     display: none
   }
 }
+
+/* aspilak: my custom stuff starts here... */
+.container-full {
+  margin: 0 auto;
+  width: 100%;
+}

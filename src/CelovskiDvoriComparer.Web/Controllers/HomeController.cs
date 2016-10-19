@@ -11,7 +11,7 @@ namespace CelovskiDvoriComparer.Web.Controllers
 {
     public class HomeController : Controller
     {
-        //private static IEnumerable<CelovskiDvoriModel> Model = GetModel().Result;
+        private static IEnumerable<CelovskiDvoriModel> _model = GetModel().Result; // poorman's caching
 
         private static async Task<IEnumerable<CelovskiDvoriModel>> GetModel()
         {
@@ -36,10 +36,9 @@ namespace CelovskiDvoriComparer.Web.Controllers
             return bag;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var model = GetModel();
-            return View(model);
+            return View(_model);
         }
 
         public IActionResult About()

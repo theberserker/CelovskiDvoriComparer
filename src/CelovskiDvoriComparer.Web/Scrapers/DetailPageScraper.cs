@@ -13,7 +13,7 @@ namespace CelovskiDvoriComparer.Web.Scrapers
         {
             var webGet = new HtmlWeb();
             var doc = await webGet.LoadFromWebAsync(detailUri.ToString());
-            var imageUri = TryGetSketchImage(doc);
+            var imageUri = TryParseSketchImage(doc);
             var detailsDictionary = ParseDescriptionTable(doc);
 
             return new DetailModel
@@ -38,7 +38,7 @@ namespace CelovskiDvoriComparer.Web.Scrapers
             return sumRows;
         }
 
-        private static Uri TryGetSketchImage(HtmlDocument doc)
+        private static Uri TryParseSketchImage(HtmlDocument doc)
         {
             var sketchImage = doc.DocumentNode
                 .Descendants("img")

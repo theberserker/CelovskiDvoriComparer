@@ -17,6 +17,11 @@ namespace CelovskiDvoriComparer.Web.Scrapers
             var doc = await webGet.LoadFromWebAsync(BaseUri);
             var trNodes = doc.GetElementbyId("novoCenik").Descendants("tr");
 
+            return CreateModels(trNodes);
+        }
+
+        private static IEnumerable<BasicDescriptionModel> CreateModels(IEnumerable<HtmlNode> trNodes)
+        {
             foreach (HtmlNode tr in trNodes)
             {
                 Console.WriteLine(tr.OuterHtml);

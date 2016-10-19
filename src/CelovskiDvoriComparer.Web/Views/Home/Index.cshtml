@@ -1,8 +1,16 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<CelovskiDvoriComparer.Web.Models.CelovskiDvoriModel>
 
 <div class="row-fluid">
-
-    <div class="span4">...</div>
+    @foreach (var m in Model)
+    {
+        <div class="span4">
+            <div class="">
+                <span class="badge">@m.BasicDescription.Price</span>
+                <span class="badge">@m.BasicDescription.Squares</span>
+                <span class="badge">@m.BasicDescription.Floor</span>
+                <span class="badge">@m.BasicDescription.NrRooms</span>
+            </div>
+            <img src="@m.Detail.SketchImageUri" alt="Looks like image is not available anymore" />
+        </div>
+    }
 </div>
