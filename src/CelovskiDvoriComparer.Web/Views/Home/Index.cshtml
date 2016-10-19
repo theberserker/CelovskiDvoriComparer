@@ -10,12 +10,26 @@
                     <span class="badge squares">@m.Detail.CompleteArea / @m.Detail.UsableAreaSquares</span>
                     <span class="badge floor">@m.BasicDescription.Floor nadstropje</span>
                     <span class="badge rooms">@m.BasicDescription.NrRooms</span>
+                    <span class="badge more">Več...</span>
                 </div>
                 <div class="sketch">
                     <a href="@m.BasicDescription.DetailUri" target="_blank">
                         <img src="@m.Detail.SketchImageUri" alt="Looks like image is not available anymore" />
                     </a>
                 </div>
+                <table class="table narrow" style="display: none;">
+                    <tbody>
+                        @foreach (var detail in @m.Detail.Characteristics)
+                        {
+                            <tr>
+                                <td>@detail.Item1</td>
+                                <td>@detail.Item2</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
             </div>
         }
         </div>

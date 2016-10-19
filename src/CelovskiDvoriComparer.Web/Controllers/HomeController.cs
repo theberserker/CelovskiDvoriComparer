@@ -15,9 +15,14 @@ namespace CelovskiDvoriComparer.Web.Controllers
     {
         private static IEnumerable<CelovskiDvoriModel> _model = CelovskiDvoriModel.GetModels().Result; // poorman's caching
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(_model.Where(x=>x.BasicDescription.NrRooms.StartsWith("tr")));
+            var model = _model
+                .Where(x => x.BasicDescription.NrRooms.StartsWith("tr"))
+                .OrderBy(x => x.BasicDescription.Price)
+                .ToList();
+
+            return View(model);
         }
 
         public IActionResult Error()

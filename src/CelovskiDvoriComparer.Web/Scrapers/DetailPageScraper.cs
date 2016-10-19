@@ -14,31 +14,32 @@ namespace CelovskiDvoriComparer.Web.Scrapers
             var webGet = new HtmlWeb();
             var doc = await webGet.LoadFromWebAsync(detailUri.ToString());
             var imageUri = TryParseSketchImage(doc);
-            var detailsDictionary = ParseDescriptionTable(doc);
-            var usableArea = detailsDictionary.First(x => x.Key.Contains("Uporabna")).Value;
-            var completeArea = detailsDictionary.First(x => x.Key.Contains("Neto")).Value;
+            var descriptionTable = ParseDescriptionTable(doc).Where(x=>!string.IsNullOrWhiteSpace(x.Item2)); // get only those that have value in last column
+            var usableArea = descriptionTable.First(x => x.Item1.Contains("Uporabna")).Item2;
+            var completeArea = descriptionTable.First(x => x.Item1.Contains("Neto")).Item2;
 
             return new DetailModel
             {
                 SketchImageUri = imageUri,
                 UsableAreaSquares = usableArea,
                 CompleteArea = completeArea,
+                Characteristics = descriptionTable
             };
         }
 
-        private static IDictionary<string, string> ParseDescriptionTable(HtmlDocument doc)
+        private static IEnumerable<Tuple<string, string>> ParseDescriptionTable(HtmlDocument doc)
         {
-            var sumRows = doc.GetElementbyId("nepTable") // table with the details
+            var rows = doc.GetElementbyId("nepTable") // table with the details
                 .Descendants("tr")
-                .Where(tr => tr.Attributes.Any(x => HasAttributeWithValue(x, "class", "nepSUM"))) // only grey rows
+                .Where(tr => tr.Attributes
+                    .Any(x => HasAttributeWithValue(x, "class", "nepSUM") || HasAttributeWithValue(x, "class", "nepTR0") || HasAttributeWithValue(x, "class", "nepTR1"))) // grey rows (sums for m2 and all the rest with content)
                 .Select(row =>
                 {
                     var tds = row.Descendants("td").ToArray();
                     return new Tuple<string, string>(tds[1].InnerText.Trim(), tds[2].InnerText.Trim());
-                })
-                .ToDictionary(x => x.Item1, x => x.Item2);
+                });
 
-            return sumRows;
+            return rows;
         }
 
         private static Uri TryParseSketchImage(HtmlDocument doc)
