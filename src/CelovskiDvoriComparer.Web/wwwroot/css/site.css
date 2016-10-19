@@ -55,7 +55,8 @@ textarea {
     background-color: #5cb85c;
 }
 .inlineblock{
-    display:inline-block
+    display:inline-block;
+    margin: 0 0 30px;
 }
 .badges{
     padding:20px;

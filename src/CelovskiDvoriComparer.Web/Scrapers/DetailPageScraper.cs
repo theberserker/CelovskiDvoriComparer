@@ -15,11 +15,14 @@ namespace CelovskiDvoriComparer.Web.Scrapers
             var doc = await webGet.LoadFromWebAsync(detailUri.ToString());
             var imageUri = TryParseSketchImage(doc);
             var detailsDictionary = ParseDescriptionTable(doc);
+            var usableArea = detailsDictionary.First(x => x.Key.Contains("Uporabna")).Value;
+            var completeArea = detailsDictionary.First(x => x.Key.Contains("Neto")).Value;
 
             return new DetailModel
             {
                 SketchImageUri = imageUri,
-                Details = detailsDictionary
+                UsableAreaSquares = usableArea,
+                CompleteArea = completeArea,
             };
         }
 

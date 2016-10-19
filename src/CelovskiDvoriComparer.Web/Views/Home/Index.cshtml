@@ -7,23 +7,14 @@
             <div class="inlineblock">
                 <div class="text-center badges">
                     <span class="badge price">@m.BasicDescription.Price EUR</span>
-                    <span class="badge squares">@m.BasicDescription.Squares m2</span>
+                    <span class="badge squares">@m.Detail.CompleteArea / @m.Detail.UsableAreaSquares</span>
                     <span class="badge floor">@m.BasicDescription.Floor nadstropje</span>
                     <span class="badge rooms">@m.BasicDescription.NrRooms</span>
                 </div>
-                <img src="@m.Detail.SketchImageUri" class="sketch" alt="Looks like image is not available anymore" />
-                <div class="text-center">
-                    <table class="table narrow">
-                        <tbody>
-                            @foreach (var detail in @m.Detail.Details)
-                            {
-                                <tr>
-                                    <td>@detail.Key</td>
-                                    <td>@detail.Value</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                <div class="sketch">
+                    <a href="@m.BasicDescription.DetailUri" target="_blank">
+                        <img src="@m.Detail.SketchImageUri" alt="Looks like image is not available anymore" />
+                    </a>
                 </div>
             </div>
         }
