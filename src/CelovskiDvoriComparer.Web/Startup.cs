@@ -36,6 +36,9 @@ namespace CelovskiDvoriComparer.Web
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
+            // Add functionality to inject IOptions<T>
+            services.AddOptions();
+
             services.AddMvc();
         }
 
