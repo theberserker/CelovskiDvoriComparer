@@ -6,16 +6,17 @@
         {
             <div class="appartment-container">
                 <div class="text-center badges">
+                    <span class="badge code">@m.BasicDescription.Code</span>
                     <span class="badge price">@m.BasicDescription.Price EUR</span>
                     <span class="badge squares">@m.Detail.CompleteArea / @m.Detail.UsableAreaSquares</span>
                     <span class="badge floor">@m.BasicDescription.Floor nadstropje</span>
                     <span class="badge rooms">@m.BasicDescription.NrRooms</span>
-                    <span class="badge more">Več...</span>
+                    <a href="@m.BasicDescription.DetailUri" target="_blank">
+                        <span class="badge more">Več...</span>
+                    </a>
                 </div>
                 <div class="sketch">
-                    <a href="@m.BasicDescription.DetailUri" target="_blank">
-                        <img src="@m.Detail.SketchImageUri" alt="Looks like image is not available anymore" />
-                    </a>
+                    <img src="@m.Detail.SketchImageUri" alt="Looks like image is not available anymore" />
                 </div>
                 <table class="table narrow" style="display: none;">
                     <tbody>
@@ -28,9 +29,7 @@
                         }
                     </tbody>
                 </table>
-
-
             </div>
         }
-        </div>
     </div>
+</div>

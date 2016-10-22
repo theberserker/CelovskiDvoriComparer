@@ -13,11 +13,11 @@ namespace CelovskiDvoriComparer.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private static IEnumerable<CelovskiDvoriModel> _model = CelovskiDvoriModel.GetModels().Result; // poorman's caching
+        private static Task<IEnumerable<CelovskiDvoriModel>> _model = CelovskiDvoriModel.GetModels(); // poorman's caching
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var model = _model
+            var model = (await _model)
                 .Where(x => x.BasicDescription.NrRooms.StartsWith("tr"))
                 .OrderBy(x => x.BasicDescription.Price)
                 .ToList();
