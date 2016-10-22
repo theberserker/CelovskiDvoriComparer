@@ -15,28 +15,22 @@ namespace CelovskiDvoriComparer.Web.Models
         public DetailModel Detail { get; set; }
 
         /// <summary>
-        /// Creates the main model of an application.
+        /// Creates the main model of an application. Scraped from official website.
         /// </summary>
-        /// <returns></returns>
-        public static async Task<IEnumerable<CelovskiDvoriModel>> GetModels()
+        /// <returns>Appllication root model.</returns>
+        public static async Task<IEnumerable<CelovskiDvoriModel>> GetModelsFromWeb()
         {
             var frontpageItems = await FrontPageScraper.GetBasicData();
-            //var tasks = frontpageItems.Select(async item => await A(item));
-            //var models = await Task.WhenAll(tasks);
-            //return models;
-            return await frontpageItems.ForEachAsync(GetModel);
-
-        }
-
-        private static async Task<CelovskiDvoriModel> GetModel(BasicDescriptionModel basic)
-        {
-            var detail = await DetailPageScraper.GetDetailData(basic.DetailUri);
-            var model = new CelovskiDvoriModel
-            {
-                BasicDescription = basic,
-                Detail = detail
-            };
-            return model;
+            var result = await frontpageItems.ForEachAsync(async basic => {
+                var detail = await DetailPageScraper.GetDetailData(basic.DetailUri);
+                var model = new CelovskiDvoriModel
+                {
+                    BasicDescription = basic,
+                    Detail = detail
+                };
+                return model;
+            });
+            return result;
         }
     }
 }

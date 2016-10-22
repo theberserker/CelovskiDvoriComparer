@@ -13,7 +13,7 @@ namespace CelovskiDvoriComparer.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private static Task<IEnumerable<CelovskiDvoriModel>> _model = CelovskiDvoriModel.GetModels(); // poorman's caching
+        private static Task<IEnumerable<CelovskiDvoriModel>> _model = CelovskiDvoriModel.GetModelsFromWeb(); // poorman's caching
 
         public async Task<IActionResult> Index()
         {
