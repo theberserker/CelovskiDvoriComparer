@@ -1,4 +1,5 @@
-﻿using CelovskiDvoriComparer.Web.Scrapers;
+﻿using CelovskiDvoriComparer.Web.Extensions;
+using CelovskiDvoriComparer.Web.Scrapers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -19,24 +20,23 @@ namespace CelovskiDvoriComparer.Web.Models
         /// <returns></returns>
         public static async Task<IEnumerable<CelovskiDvoriModel>> GetModels()
         {
-            var bag = new ConcurrentBag<CelovskiDvoriModel>();
             var frontpageItems = await FrontPageScraper.GetBasicData();
+            //var tasks = frontpageItems.Select(async item => await A(item));
+            //var models = await Task.WhenAll(tasks);
+            //return models;
+            return await frontpageItems.ForEachAsync(GetModel);
 
-            await Task.Run(() => Parallel.ForEach(
-                frontpageItems,
-                async basic =>
-                {
-                    var detail = await DetailPageScraper.GetDetailData(basic.DetailUri);
-                    var model = new CelovskiDvoriModel
-                    {
-                        BasicDescription = basic,
-                        Detail = detail
-                    };
+        }
 
-                    bag.Add(model);
-                }));
-
-            return bag;
+        private static async Task<CelovskiDvoriModel> GetModel(BasicDescriptionModel basic)
+        {
+            var detail = await DetailPageScraper.GetDetailData(basic.DetailUri);
+            var model = new CelovskiDvoriModel
+            {
+                BasicDescription = basic,
+                Detail = detail
+            };
+            return model;
         }
     }
 }
