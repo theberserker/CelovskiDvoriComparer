@@ -14,15 +14,15 @@ namespace CelovskiDvoriComparer.Web.Scrapers
             var webGet = new HtmlWeb();
             var doc = await webGet.LoadFromWebAsync(detailUri.ToString());
             var imageUri = TryParseSketchImage(doc);
-            var descriptionTable = ParseDescriptionTable(doc).Where(x=>!string.IsNullOrWhiteSpace(x.Item2)); // get only those that have value in last column
+            var descriptionTable = ParseDescriptionTable(doc).Where(x=>!string.IsNullOrWhiteSpace(x.Item2)).ToList(); // get only those that have value in last column
             var usableArea = descriptionTable.First(x => x.Item1.Contains("Uporabna")).Item2;
             var completeArea = descriptionTable.First(x => x.Item1.Contains("Neto")).Item2;
-
+            
             return new DetailModel
             {
                 SketchImageUri = imageUri,
-                UsableAreaSquares = usableArea,
-                CompleteArea = completeArea,
+                UsableAreaSquares = usableArea, //ParseDecimal(usableArea),
+                CompleteArea = completeArea, //ParseDecimal(completeArea),
                 Characteristics = descriptionTable
             };
         }
@@ -41,6 +41,26 @@ namespace CelovskiDvoriComparer.Web.Scrapers
 
             return rows;
         }
+
+        /// <summary>
+        /// Parse out decimal number from a string .
+        /// E.g. "73,20                            m²" will be parsed to "73,20"
+        /// </summary>
+        /// <param name="completeArea"></param>
+        /// <returns></returns>
+        private static string ParseDecimal(string completeArea)
+        {
+            if (completeArea == null)
+                return null;
+
+            var chars = completeArea
+                .SkipWhile(c => !char.IsDigit(c))
+                .TakeWhile(c => char.IsDigit(c) || c == ',')
+                .ToArray();
+                
+            return new string(chars);
+        }
+
 
         private static Uri TryParseSketchImage(HtmlDocument doc)
         {

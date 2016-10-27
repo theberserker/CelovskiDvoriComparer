@@ -61,7 +61,7 @@ namespace CelovskiDvoriComparer.Web
             }
 
             app.UseApplicationInsightsExceptionTelemetry();
-
+            app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

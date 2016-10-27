@@ -13,6 +13,6 @@ namespace CelovskiDvoriComparer.Web.Models
         public string Floor { get; set; }
         public string Squares { get; set; }
         public string Price { get; set; }
-        public Uri DetailUri { get; internal set; }
+        public Uri DetailUri { get; set; }
     }
 }
