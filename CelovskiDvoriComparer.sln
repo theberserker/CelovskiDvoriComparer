@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CelovskiDvoriComparer.Web", "src\CelovskiDvoriComparer.Web\CelovskiDvoriComparer.Web.xproj", "{39201EAA-457A-45B9-ADDF-874B143D6F57}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CelovskiDvoriComparer.Testing", "src\CelovskiDvoriComparer.Testing\CelovskiDvoriComparer.Testing.xproj", "{96DF13BE-7D58-4B0C-93CD-CD238ED16CF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,11 +24,16 @@ Global
 		{39201EAA-457A-45B9-ADDF-874B143D6F57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39201EAA-457A-45B9-ADDF-874B143D6F57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39201EAA-457A-45B9-ADDF-874B143D6F57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96DF13BE-7D58-4B0C-93CD-CD238ED16CF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96DF13BE-7D58-4B0C-93CD-CD238ED16CF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96DF13BE-7D58-4B0C-93CD-CD238ED16CF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96DF13BE-7D58-4B0C-93CD-CD238ED16CF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{39201EAA-457A-45B9-ADDF-874B143D6F57} = {62EF8763-A8A9-4EB8-BB23-7D86D5979913}
+		{96DF13BE-7D58-4B0C-93CD-CD238ED16CF7} = {62EF8763-A8A9-4EB8-BB23-7D86D5979913}
 	EndGlobalSection
 EndGlobal
