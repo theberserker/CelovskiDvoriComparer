@@ -8,10 +8,9 @@ namespace CelovskiDvoriComparer.Web.Models
     public class DetailModel
     {
         public Uri SketchImageUri { get; set; }
-        public string UsableAreaSquares { get; set; }
-        public string CompleteArea { get; set; }
+        public BasicInfoModel BasicInfo {get;set;}
+        public AreasModel Areas { get; set; }
 
-        public IEnumerable<Tuple<string, string>> Characteristics { get; set; }
 
     }
 }

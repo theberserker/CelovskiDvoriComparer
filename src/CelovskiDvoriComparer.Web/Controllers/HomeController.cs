@@ -5,9 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CelovskiDvoriComparer.Web.Scrapers;
 using CelovskiDvoriComparer.Web.Models;
-using System.Collections.Concurrent;
-using Microsoft.Extensions.Options;
-using System.Dynamic;
 using Newtonsoft.Json;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +23,7 @@ namespace CelovskiDvoriComparer.Web.Controllers
         private static Task<IEnumerable<CelovskiDvoriModel>> _model = null; // poorman's caching v2...
         private static readonly object syncLock = new object();
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> OldIndex()
         {
             if (_model == null)
             {
@@ -51,6 +48,29 @@ namespace CelovskiDvoriComparer.Web.Controllers
             //System.IO.File.WriteAllText(@"C:\tmp\model.json", serialized);
 
             return View(model);
+        }
+
+        /// <summary>
+        /// The controller for the all follow-up appartments. Scraped before they were published, but URLs were found.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            // http://nepremicnine.dutb.eu/cd/oglas/oglas3041697.html
+            // http://nepremicnine.dutb.eu/cd/oglas/oglas3041919.html
+            int startIndex = 3041697;
+            string template = "http://nepremicnine.dutb.eu/cd/oglas/oglas{0}.html";
+            int endIndex = 3041919;
+            //for ()
+            //{
+
+            //}
+
+            var url = string.Format(template, startIndex);
+            var a = await DetailPageScraper.GetDetailData(new Uri(url));
+
+            return Ok(a);
         }
 
         public IActionResult Error()

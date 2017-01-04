@@ -21,7 +21,8 @@ namespace CelovskiDvoriComparer.Web.Models
         public static async Task<IEnumerable<CelovskiDvoriModel>> GetModelsFromWeb()
         {
             var frontpageItems = await FrontPageScraper.GetBasicData();
-            var result = await frontpageItems.ForEachAsync(async basic => {
+            var result = await frontpageItems.ForEachAsync(async basic => 
+            {
                 var detail = await DetailPageScraper.GetDetailData(basic.DetailUri);
                 var model = new CelovskiDvoriModel
                 {

@@ -13,18 +13,49 @@ namespace CelovskiDvoriComparer.Web.Scrapers
         {
             var webGet = new HtmlWeb();
             var doc = await webGet.LoadFromWebAsync(detailUri.ToString());
+
+            // parses the right part - "Tabela prostorov"
             var imageUri = TryParseSketchImage(doc);
-            var descriptionTable = ParseDescriptionTable(doc).Where(x=>!string.IsNullOrWhiteSpace(x.Item2)).ToList(); // get only those that have value in last column
+            var descriptionTable = ParseDescriptionTable(doc).Where(x => !string.IsNullOrWhiteSpace(x.Item2)).ToList(); // get only those that have value in last column
             var usableArea = descriptionTable.First(x => x.Item1.Contains("Uporabna")).Item2;
             var completeArea = descriptionTable.First(x => x.Item1.Contains("Neto")).Item2;
-            
+            var basicData = ParseBasicData(doc);
+
             return new DetailModel
             {
                 SketchImageUri = imageUri,
-                UsableAreaSquares = usableArea, //ParseDecimal(usableArea),
-                CompleteArea = completeArea, //ParseDecimal(completeArea),
-                Characteristics = descriptionTable
+                Areas = new AreasModel
+                {
+                    UsableAreaSquares = usableArea, //ParseDecimal(usableArea),
+                    CompleteArea = completeArea, //ParseDecimal(completeArea),
+                    Characteristics = descriptionTable
+                },
+                BasicInfo = new BasicInfoModel
+                {
+                    Characteristics = basicData
+                }
             };
+        }
+
+        private static IEnumerable<Tuple<string, string>> ParseBasicData(HtmlDocument doc)
+        {
+            var divContainer = doc.DocumentNode
+                .Descendants("div")
+                .FirstOrDefault(div => div.Attributes.Any(attr => HasAttributeWithValue(attr, "class", "osnippet")));
+
+            var trs = divContainer
+                .Descendants("table")
+                .First()
+                //.Descendants("tbody")
+                //.Single(); // There is actually the 'tbody' within 'table', but zie prasec Agilty Pack will have directly the 'tr's inside!
+                .Descendants("tr");
+
+            var trsFiltered = trs.Select(x => x.Descendants("td").ToArray());
+            foreach (var tds in trsFiltered.Where(x => x.Count() > 1))
+            {
+                yield return new Tuple<string, string>(tds[0].InnerText, tds[1].InnerText);
+            }
+
         }
 
         private static IEnumerable<Tuple<string, string>> ParseDescriptionTable(HtmlDocument doc)
@@ -57,7 +88,7 @@ namespace CelovskiDvoriComparer.Web.Scrapers
                 .SkipWhile(c => !char.IsDigit(c))
                 .TakeWhile(c => char.IsDigit(c) || c == ',')
                 .ToArray();
-                
+
             return new string(chars);
         }
 
@@ -74,7 +105,7 @@ namespace CelovskiDvoriComparer.Web.Scrapers
             }
 
             var src = sketchImage.Attributes["src"].Value;
-            return new Uri(src);
+            return new Uri(src, UriKind.Relative);
         }
 
         private static bool HasAttributeWithValue(HtmlAttribute a, string name, string value)
