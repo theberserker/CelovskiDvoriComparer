@@ -12,7 +12,9 @@ namespace CelovskiDvoriComparer.Web.Models
         public string Lamela => GetCharacteristic("Lamela");
 
         public string VrstaObjekta => GetCharacteristic("Vrsta");
-        
+
+        public string Nadstropje => GetCharacteristic("Nadstropje");
+
         /// <summary>
         /// Bag of all values that were possible to be parsed in the section.
         /// </summary>
@@ -27,7 +29,7 @@ namespace CelovskiDvoriComparer.Web.Models
             }
             
             return Characteristics
-                ?.FirstOrDefault(x => s.TrimStart().StartsWith(x?.Item1, StringComparison.OrdinalIgnoreCase))
+                ?.FirstOrDefault(x => x.Item1.TrimStart().StartsWith(s, StringComparison.OrdinalIgnoreCase))
                 ?.Item2;
         }
     }

@@ -1,9 +1,12 @@
 ﻿{
     "version": "1.0.0-*",
+    "testRunner": "xunit",
 
     "dependencies": {
+        "CelovskiDvoriComparer.Web": "1.0.0-*",
         "NETStandard.Library": "1.6.0",
-        "xunit": "2.1.0"
+        "xunit": "2.1.0",
+        "xunit.runner.console": "2.1.0"
     },
 
     "frameworks": {
@@ -13,5 +16,15 @@
                 "portable-net45+win8"
             ]
         }
+        /* .NET Core Class Library defaults; won't build (The dependency Microsoft.NETCore.App 1.0.1 does not support framework .NETStandard,Version=v1.6.)*/
+        //"netstandard1.6": {
+        //    "imports": "dnxcore50"
+        //}
+        /* DESPERATE ATTEMPT */
+        //"netstandard1.6": {
+        //    "imports": [ "dotnet5.6", "portable-net45+win8" ]
+        //}
+
     }
+
 }

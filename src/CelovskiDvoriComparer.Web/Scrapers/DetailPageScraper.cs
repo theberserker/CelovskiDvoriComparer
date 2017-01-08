@@ -20,9 +20,11 @@ namespace CelovskiDvoriComparer.Web.Scrapers
             var usableArea = descriptionTable.First(x => x.Item1.Contains("Uporabna")).Item2;
             var completeArea = descriptionTable.First(x => x.Item1.Contains("Neto")).Item2;
             var basicData = ParseBasicData(doc);
+            var code = ParseCode(doc);
 
             return new DetailModel
             {
+                Code = code,
                 SketchImageUri = imageUri,
                 Areas = new AreasModel
                 {
@@ -35,6 +37,15 @@ namespace CelovskiDvoriComparer.Web.Scrapers
                     Characteristics = basicData
                 }
             };
+        }
+
+        private static string ParseCode(HtmlDocument doc)
+        {
+            var sketchImage = doc.DocumentNode
+                .Descendants("span")
+                .FirstOrDefault(x => x.Attributes.Any(a => HasAttributeWithValue(a, "class", "sifraoglasa")));
+
+            return sketchImage?.InnerText;
         }
 
         private static IEnumerable<Tuple<string, string>> ParseBasicData(HtmlDocument doc)
@@ -55,7 +66,6 @@ namespace CelovskiDvoriComparer.Web.Scrapers
             {
                 yield return new Tuple<string, string>(tds[0].InnerText, tds[1].InnerText);
             }
-
         }
 
         private static IEnumerable<Tuple<string, string>> ParseDescriptionTable(HtmlDocument doc)
@@ -93,7 +103,7 @@ namespace CelovskiDvoriComparer.Web.Scrapers
         }
 
 
-        private static Uri TryParseSketchImage(HtmlDocument doc)
+        private static string TryParseSketchImage(HtmlDocument doc)
         {
             var sketchImage = doc.DocumentNode
                 .Descendants("img")
@@ -104,8 +114,7 @@ namespace CelovskiDvoriComparer.Web.Scrapers
                 return null;
             }
 
-            var src = sketchImage.Attributes["src"].Value;
-            return new Uri(src, UriKind.Relative);
+            return sketchImage.Attributes["src"].Value;
         }
 
         private static bool HasAttributeWithValue(HtmlAttribute a, string name, string value)

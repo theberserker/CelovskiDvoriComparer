@@ -23,7 +23,8 @@
         "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
         "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
         "HtmlAgilityPack": "1.4.9.5",
-        "Newtonsoft.Json": "9.0.1"
+        "Newtonsoft.Json": "9.0.1",
+        "Nito.AsyncEx.Context": "1.1.0"
     },
 
     "tools": {
@@ -40,6 +41,7 @@
             ]
         }
     },
+
 
     "buildOptions": {
         "emitEntryPoint": true,
